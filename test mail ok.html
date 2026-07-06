@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Inspection Chariot PRO</title>
+
+<!-- EMAILJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+  emailjs.init("aurelienlqn@gmail.com"); // 🔴 A REMPLACER
+</script>
+
+</head>
+
+<body>
+
+<h2>🛠 Inspection Chariot</h2>
+
+<p>Chariot :</p>
+<p id="chariot"></p>
+
+<h3>Checklist pannes</h3>
+
+<label><input type="checkbox" id="c1"> État extérieur</label><br>
+<label><input type="checkbox" id="c2"> Roues HS</label><br>
+<label><input type="checkbox" id="c3"> Chariot bloqué</label><br>
+<label><input type="checkbox" id="c4"> Batterie</label><br>
+<label><input type="checkbox" id="c5"> Chocs</label><br>
+<label><input type="checkbox" id="c6"> Fuite</label><br>
+<label><input type="checkbox" id="c7"> Flexible</label><br>
+<label><input type="checkbox" id="c8"> Sécurité</label><br>
+<label><input type="checkbox" id="c9"> Problème levage</label><br>
+
+<h3>Commentaire</h3>
+<textarea id="problem" style="width:300px;height:80px;"></textarea>
+
+<br><br>
+
+<button onclick="sendMail()">📧 Envoyer inspection</button>
+
+<script>
+
+// 🔥 récup QR code
+const params = new URLSearchParams(window.location.search);
+const chariot = params.get("id") || "NON_DEFINI";
+
+document.getElementById("chariot").innerText = chariot;
+
+// 📧 ENVOI EMAIL
+function sendMail() {
+
+  let data = {
+    chariot: chariot,
+    date: new Date().toLocaleString(),
+
+    etat_exterieur: document.getElementById("c1").checked,
+    roues_hs: document.getElementById("c2").checked,
+    bloque: document.getElementById("c3").checked,
+    batterie: document.getElementById("c4").checked,
+    chocs: document.getElementById("c5").checked,
+    fuite: document.getElementById("c6").checked,
+    flexible: document.getElementById("c7").checked,
+    securite: document.getElementById("c8").checked,
+    levage: document.getElementById("c9").checked,
+    problem: document.getElementById("problem").value
+  };
+
+  emailjs.send(
+    "service_10pgdzp",      // 🔴 A REMPLACER
+    "résultat chariot",     // 🔴 A REMPLACER
+    data
+  )
+  .then(() => {
+    alert("✔ Email envoyé avec succès");
+  })
+  .catch((err) => {
+    alert("Erreur envoi email");
+    console.log(err);
+  });
+
+}
+
+</script>
+
+</body>
+</html>
